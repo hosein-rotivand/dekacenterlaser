@@ -159,6 +159,145 @@ input,button{font-family:inherit}
   </div>
 </section>
 
+<section id="booking" style="padding:44px 16px 0">
+  <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+    <div style="font-size:12.5px;font-weight:800;letter-spacing:.2px;color:#5A6284">فرم پذیرش</div>
+    <div style="font-size:23px;font-weight:900;line-height:1.5;color:#0B1B5E;text-wrap:balance">نوبت خود را در چند دقیقه ثبت کنید</div>
+  </div>
+  <div style="border-radius:24px;background:#FFFFFF;border:1px solid #E6E8F0;box-shadow:0 18px 50px rgba(11,27,94,.08);padding:18px 18px 16px;min-height:540px;display:flex;flex-direction:column">
+
+    <sc-if value="{{ bkActive }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:26px">
+        <div style="flex:1;height:4px;border-radius:2px;background:#E9EBF5;overflow:hidden">
+          <div style="height:100%;width:{{ bkPct }};border-radius:2px;background:#0B1B5E;transition:width .35s cubic-bezier(.2,.8,.2,1)"></div>
+        </div>
+        <div style="font-size:12.5px;font-weight:800;color:#5A6284;min-width:44px;text-align:left">{{ bkCounter }}</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:22px">
+        <div style="font-size:25px;font-weight:900;line-height:1.55;color:#0B1B5E;text-wrap:balance">{{ bkQuestion }}</div>
+        <div style="font-size:13px;line-height:1.9;color:#5A6284">{{ bkHint }}</div>
+      </div>
+
+      <div style="flex:1;display:flex;flex-direction:column">
+
+        <sc-if value="{{ bkIsText }}" hint-placeholder-val="{{ true }}">
+          <input value="{{ bkText }}" onChange="{{ bkSetText }}" onKeyDown="{{ bkKey }}" type="text" inputmode="{{ bkInputMode }}" dir="{{ bkDir }}" placeholder="{{ bkPlaceholder }}" style="width:100%;height:64px;border:0;border-bottom:2px solid #0B1B5E;border-radius:0;background:transparent;padding:0 2px;font-size:22px;font-weight:700;color:#0E1433;outline:none;text-align:right">
+        </sc-if>
+
+        <sc-if value="{{ bkIsChoice }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ bkOpts }}" as="o" hint-placeholder-count="3">
+              <button onClick="{{ o.pick }}" style="height:60px;border-radius:14px;border:1.5px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }};padding:0 14px;display:flex;align-items:center;gap:12px;font-size:16px;font-weight:700;cursor:pointer;text-align:right">
+                <span style="width:30px;height:30px;border-radius:9px;background:{{ o.badgeBg }};color:{{ o.badgeFg }};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:none">{{ o.idx }}</span>
+                <span style="flex:1">{{ o.label }}</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ o.mark }}"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ bkIsMulti }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <sc-for list="{{ bkOpts }}" as="o" hint-placeholder-count="6">
+              <button onClick="{{ o.pick }}" style="height:60px;border-radius:14px;border:1.5px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }};padding:0 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:15px;font-weight:700;cursor:pointer;text-align:right">
+                <span>{{ o.label }}</span>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ o.mark }}"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ bkIsSwatch }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+            <sc-for list="{{ bkOpts }}" as="o" hint-placeholder-count="6">
+              <button onClick="{{ o.pick }}" style="border-radius:16px;border:1.5px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }};padding:14px 6px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer">
+                <span style="width:42px;height:42px;border-radius:50%;background:{{ o.color }};box-shadow:inset 0 0 0 2px rgba(255,255,255,.55),0 0 0 1px rgba(14,20,51,.12)"></span>
+                <span style="font-size:13.5px;font-weight:800">{{ o.label }}</span>
+                <span style="font-size:11px;font-weight:500;opacity:.75">{{ o.sub }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ bkIsYesNo }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <sc-for list="{{ bkOpts }}" as="o" hint-placeholder-count="2">
+                <button onClick="{{ o.pick }}" style="height:60px;border-radius:14px;border:1.5px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }};font-size:16px;font-weight:700;cursor:pointer">{{ o.label }}</button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ bkShowExtra }}" hint-placeholder-val="{{ false }}">
+              <input value="{{ bkExtra }}" onChange="{{ bkSetExtra }}" onKeyDown="{{ bkKey }}" type="text" placeholder="{{ bkExtraPlaceholder }}" style="width:100%;height:56px;border:0;border-bottom:2px solid #0B1B5E;border-radius:0;background:transparent;padding:0 2px;font-size:18px;font-weight:600;color:#0E1433;outline:none;text-align:right">
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ bkIsPhoto }}" hint-placeholder-val="{{ false }}">
+          <label style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;height:230px;border-radius:18px;background:#F4F5FA;overflow:hidden;cursor:pointer">
+            <input type="file" accept="image/*" onChange="{{ bkSetPhoto }}" style="position:absolute;width:1px;height:1px;opacity:0">
+            <sc-if value="{{ bkHasPhoto }}" hint-placeholder-val="{{ false }}">
+              <img src="{{ bkPhotoUrl }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+            </sc-if>
+            <sc-if value="{{ bkNoPhoto }}" hint-placeholder-val="{{ true }}">
+              <span style="width:52px;height:52px;border-radius:50%;background:#FFFFFF;color:#0B1B5E;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(11,27,94,.1)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span>
+              <span style="font-size:14.5px;font-weight:800;color:#0B1B5E">انتخاب یا گرفتن عکس</span>
+              <span style="font-size:12px;color:#5A6284">اختیاری است و فقط برای کارشناس ما نمایش داده می‌شود</span>
+            </sc-if>
+          </label>
+        </sc-if>
+
+        <sc-if value="{{ bkIsDate }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;gap:8px;overflow-x:auto;margin:0 -18px;padding:2px 18px">
+              <sc-for list="{{ bkDays }}" as="d" hint-placeholder-count="7">
+                <button onClick="{{ d.pick }}" style="flex:none;width:62px;height:82px;border-radius:14px;border:1.5px solid {{ d.border }};background:{{ d.bg }};color:{{ d.fg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer">
+                  <span style="font-size:11.5px;font-weight:600;opacity:.8">{{ d.week }}</span>
+                  <span style="font-size:21px;font-weight:900;line-height:1">{{ d.day }}</span>
+                  <span style="font-size:11px;font-weight:600;opacity:.8">{{ d.month }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+              <sc-for list="{{ bkSlots }}" as="t" hint-placeholder-count="8">
+                <button onClick="{{ t.pick }}" style="height:46px;border-radius:12px;border:1.5px solid {{ t.border }};background:{{ t.bg }};color:{{ t.fg }};font-size:14px;font-weight:700;cursor:pointer">{{ t.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ bkIsReview }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;border-radius:16px;background:#F4F5FA;padding:6px 14px">
+            <sc-for list="{{ bkRows }}" as="r" hint-placeholder-count="6">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid #E6E8F0">
+                <span style="font-size:12.5px;font-weight:600;color:#5A6284;flex:none">{{ r.label }}</span>
+                <span style="font-size:14px;font-weight:800;color:#0E1433;text-align:left">{{ r.value }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:22px">
+        <button onClick="{{ bkNext }}" style="flex:1;height:56px;border-radius:14px;border:0;background:#0B1B5E;color:#FFFFFF;font-size:15.5px;font-weight:800;cursor:pointer;opacity:{{ bkNextOpacity }};display:{{ bkNextDisplay }}">{{ bkNextLabel }}</button>
+        <button onClick="{{ bkBack }}" aria-label="بازگشت" style="width:56px;height:56px;border-radius:14px;border:1.5px solid #E1E4EE;background:#FFFFFF;color:#0B1B5E;display:flex;align-items:center;justify-content:center;cursor:pointer;visibility:{{ bkBackVis }};margin-inline-start:auto"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ bkDone }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:20px 0">
+        <span style="width:76px;height:76px;border-radius:50%;background:#E8F7EE;display:flex;align-items:center;justify-content:center"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1FA855" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+        <div style="font-size:22px;font-weight:900;color:#0B1B5E">درخواست شما ثبت شد</div>
+        <div style="font-size:14px;line-height:2;color:#5A6284;max-width:280px">{{ bkDoneText }}</div>
+        <div style="padding:10px 18px;border-radius:12px;background:#F4F5FA;font-size:13px;font-weight:700;color:#5A6284">کد پیگیری: <span dir="ltr" style="color:#0B1B5E;font-weight:900">{{ bkCode }}</span></div>
+        <button onClick="{{ bkReset }}" style="margin-top:10px;height:50px;padding:0 22px;border-radius:14px;border:1.5px solid #E1E4EE;background:#FFFFFF;color:#0B1B5E;font-size:14px;font-weight:800;cursor:pointer">ثبت درخواست جدید</button>
+      </div>
+    </sc-if>
+
+  </div>
+</section>
+
 <section id="device" style="padding:44px 16px 0">
   <div style="border-radius:28px;background:linear-gradient(180deg,#F1F2F9 0%,#FFFFFF 100%);border:1px solid #ECEEF5;overflow:hidden">
     <div style="position:relative;height:250px;margin:12px 12px 0;border-radius:20px;overflow:hidden;background:#E9EBF5">
@@ -360,7 +499,118 @@ input,button{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;stickyBar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;reviewsLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;carousel&quot;,&quot;stack&quot;],&quot;default&quot;:&quot;carousel&quot;,&quot;tsType&quot;:&quot;'carousel' | 'stack'&quot;}}">
 class Component extends DCLogic {
-  state = { menu: false, sheet: false, submitted: false, name: '', phone: '', areas: ['صورت'], time: 'صبح' };
+  state = { menu: false, sheet: false, submitted: false, name: '', phone: '', areas: ['صورت'], time: 'صبح', bkStep: 0, bkAns: {}, bkPhoto: '', bkDay: null, bkSlot: '', bkDone: false, bkCode: '' };
+
+  // ---- Booking intake (one question per screen) ----
+  bkNorm = (v) => String(v || '').replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+  bkSteps = (a) => {
+    const yn = ['خیر', 'بله'];
+    const steps = [
+      { id: 'name', type: 'text', q: 'نام و نام خانوادگی شما؟', hint: 'نوبت به همین نام ثبت می‌شود.', ph: 'مثلاً سارا محمدی', mode: 'text', dir: 'rtl' },
+      { id: 'phone', type: 'text', q: 'شماره موبایل شما؟', hint: 'برای تایید نوبت با همین شماره تماس می‌گیریم.', ph: '09xx xxx xxxx', mode: 'tel', dir: 'ltr' },
+      { id: 'gender', type: 'choice', q: 'جنسیت شما؟', hint: 'برای انتخاب پروتکل مناسب دستگاه.', opts: ['خانم', 'آقا'] },
+      { id: 'age', type: 'text', q: 'سن شما؟', hint: 'به عدد وارد کنید.', ph: 'مثلاً ۲۸', mode: 'numeric', dir: 'rtl' },
+      { id: 'areas', type: 'multi', q: 'کدام نواحی را می‌خواهید؟', hint: 'یک یا چند مورد را انتخاب کنید.', opts: ['صورت', 'زیر بغل', 'دست', 'پا', 'بیکینی', 'بدن کامل'] },
+      { id: 'skin', type: 'swatch', q: 'رنگ پوست شما به کدام نزدیک‌تر است؟', hint: 'بر اساس تقسیم‌بندی فیتزپاتریک.', opts: [
+        { label: 'تیپ ۱', sub: 'خیلی روشن', color: '#F6D7B8' }, { label: 'تیپ ۲', sub: 'روشن', color: '#EDBF96' },
+        { label: 'تیپ ۳', sub: 'گندمی روشن', color: '#D9A273' }, { label: 'تیپ ۴', sub: 'گندمی', color: '#B97A4B' },
+        { label: 'تیپ ۵', sub: 'تیره', color: '#8A5530' }, { label: 'تیپ ۶', sub: 'خیلی تیره', color: '#4A2C1F' }
+      ] },
+      { id: 'face', type: 'choice', q: 'پوست صورت شما بیشتر چگونه است؟', hint: 'یک مورد را انتخاب کنید.', opts: ['خشک', 'نرمال', 'چرب', 'ترکیبی'] },
+      { id: 'tan', type: 'choice', q: 'در چهار هفته اخیر آفتاب‌سوختگی یا برنزه شدن داشته‌اید؟', hint: 'پوست برنزه نیاز به تنظیم دستگاه دارد.', opts: ['خیر', 'بله', 'مطمئن نیستم'] },
+      { id: 'laser', type: 'choice', q: 'قبلاً لیزر انجام داده‌اید؟', hint: 'در همین ناحیه یا نواحی دیگر.', opts: yn },
+      { id: 'disease', type: 'yesno', q: 'بیماری خاص یا داروی مصرفی دارید؟', hint: 'در صورت بله، مورد را بنویسید.', extraPh: 'نام بیماری یا دارو' }
+    ];
+    if (a.gender === 'خانم') steps.push({ id: 'pregnant', type: 'choice', q: 'باردار هستید یا شیردهی دارید؟', hint: 'برای ایمنی شما می‌پرسیم.', opts: yn });
+    steps.push(
+      { id: 'photo', type: 'photo', q: 'عکسی از ناحیه مورد نظر دارید؟', hint: 'می‌توانید از این مرحله عبور کنید.' },
+      { id: 'when', type: 'date', q: 'چه زمانی برای شما مناسب است؟', hint: 'روز و ساعت را انتخاب کنید.' },
+      { id: 'review', type: 'review', q: 'اطلاعات را بررسی کنید', hint: 'اگر همه‌چیز درست است، نوبت را ثبت کنید.' }
+    );
+    return steps;
+  };
+  bkValid = (st, s) => {
+    const a = s.bkAns;
+    const v = a[st.id];
+    switch (st.id) {
+      case 'name': return String(v || '').trim().length > 1;
+      case 'phone': return /^09\d{9}$/.test(this.bkNorm(v).replace(/\D/g, ''));
+      case 'age': { const n = Number(this.bkNorm(v)); return n >= 10 && n <= 80; }
+      case 'areas': return Array.isArray(v) && v.length > 0;
+      case 'disease': return v === 'خیر' || (v === 'بله' && String(a.diseaseText || '').trim().length > 1);
+      case 'photo': return true;
+      case 'when': return !!(s.bkDay && s.bkSlot);
+      case 'review': return true;
+      default: return !!v;
+    }
+  };
+  bkSet = (k, v) => this.setState(p => ({ bkAns: { ...p.bkAns, [k]: v } }));
+  bkGo = (d) => this.setState(p => ({ bkStep: Math.max(0, p.bkStep + d) }));
+  bkAuto = (d) => setTimeout(() => this.bkGo(d), 180);
+  bkReset = () => this.setState({ bkStep: 0, bkAns: {}, bkPhoto: '', bkDay: null, bkSlot: '', bkDone: false, bkCode: '' });
+  bkVals() {
+    const s = this.state, a = s.bkAns;
+    const F = (n) => Number(n).toLocaleString('fa-IR');
+    const steps = this.bkSteps(a);
+    const last = steps.length - 1;
+    const st = steps[Math.min(s.bkStep, last)];
+    const valid = this.bkValid(st, s);
+    const sel = (on) => ({ bg: on ? '#0B1B5E' : '#FFFFFF', fg: on ? '#FFFFFF' : '#0E1433', border: on ? '#0B1B5E' : '#E1E4EE', badgeBg: on ? 'rgba(255,255,255,.18)' : '#EEF0FA', badgeFg: on ? '#FFFFFF' : '#0B1B5E', mark: on ? 1 : 0 });
+    let opts = [];
+    if (st.type === 'choice') opts = st.opts.map((o, i) => ({ label: o, idx: F(i + 1), ...sel(a[st.id] === o), pick: () => { this.bkSet(st.id, o); this.bkAuto(1); } }));
+    if (st.type === 'multi') opts = st.opts.map(o => {
+      const cur = a[st.id] || [];
+      return { label: o, ...sel(cur.includes(o)), pick: () => this.bkSet(st.id, cur.includes(o) ? cur.filter(x => x !== o) : [...cur, o]) };
+    });
+    if (st.type === 'swatch') opts = st.opts.map(o => ({ ...o, ...sel(a[st.id] === o.label), pick: () => { this.bkSet(st.id, o.label); this.bkAuto(1); } }));
+    if (st.type === 'yesno') opts = ['خیر', 'بله'].map(o => ({ label: o, ...sel(a[st.id] === o), pick: () => { this.bkSet(st.id, o); if (o === 'خیر') this.bkAuto(1); } }));
+
+    const dayFmt = (d) => ({
+      week: new Intl.DateTimeFormat('fa-IR-u-ca-persian', { weekday: 'short' }).format(d),
+      day: new Intl.DateTimeFormat('fa-IR-u-ca-persian', { day: 'numeric' }).format(d),
+      month: new Intl.DateTimeFormat('fa-IR-u-ca-persian', { month: 'short' }).format(d)
+    });
+    const days = Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(); d.setDate(d.getDate() + i);
+      const f = dayFmt(d), key = d.toISOString().slice(0, 10), on = s.bkDay && s.bkDay.key === key;
+      return { ...f, week: i === 0 ? 'امروز' : i === 1 ? 'فردا' : f.week, ...sel(on), pick: () => this.setState({ bkDay: { key, label: `${f.week} ${f.day} ${f.month}` } }) };
+    });
+    const slots = ['۱۰:۰۰', '۱۱:۰۰', '۱۲:۰۰', '۱۴:۰۰', '۱۵:۰۰', '۱۶:۰۰', '۱۷:۰۰', '۱۸:۰۰'].map(t => ({ label: t, ...sel(s.bkSlot === t), pick: () => this.setState({ bkSlot: t }) }));
+
+    const rows = [
+      ['نام', a.name], ['موبایل', this.bkNorm(a.phone)], ['جنسیت', a.gender], ['سن', a.age], ['نواحی', (a.areas || []).join('، ')],
+      ['رنگ پوست', a.skin], ['پوست صورت', a.face], ['برنزگی اخیر', a.tan], ['لیزر قبلی', a.laser],
+      ['بیماری/دارو', a.disease === 'بله' ? a.diseaseText : a.disease], ['بارداری/شیردهی', a.pregnant],
+      ['عکس', s.bkPhoto ? 'ضمیمه شد' : 'بدون عکس'], ['زمان', s.bkDay ? `${s.bkDay.label}، ساعت ${s.bkSlot}` : '']
+    ].filter(r => r[1]).map(([label, value]) => ({ label, value }));
+
+    const isLast = st.type === 'review';
+    const autoAdvance = st.type === 'choice' || st.type === 'swatch' || (st.type === 'yesno' && a[st.id] !== 'بله');
+    return {
+      bkActive: !s.bkDone, bkDone: s.bkDone, bkCode: s.bkCode,
+      bkDoneText: `${a.name || ''} عزیز، همکاران ما برای تایید ${s.bkDay ? s.bkDay.label + ' ساعت ' + s.bkSlot : 'زمان نوبت'} با شما تماس می‌گیرند.`,
+      bkPct: `${Math.round((s.bkStep / last) * 100)}%`, bkCounter: `${F(s.bkStep + 1)} از ${F(steps.length)}`,
+      bkQuestion: st.q, bkHint: st.hint,
+      bkIsText: st.type === 'text', bkIsChoice: st.type === 'choice', bkIsMulti: st.type === 'multi', bkIsSwatch: st.type === 'swatch',
+      bkIsYesNo: st.type === 'yesno', bkIsPhoto: st.type === 'photo', bkIsDate: st.type === 'date', bkIsReview: isLast,
+      bkText: a[st.id] || '', bkInputMode: st.mode || 'text', bkDir: st.dir || 'rtl', bkPlaceholder: st.ph || '',
+      bkSetText: (e) => this.bkSet(st.id, e.target.value),
+      bkKey: (e) => { if (e.key === 'Enter' && valid && !isLast) this.bkGo(1); },
+      bkOpts: opts, bkDays: days, bkSlots: slots, bkRows: rows,
+      bkShowExtra: st.type === 'yesno' && a[st.id] === 'بله', bkExtra: a.diseaseText || '', bkExtraPlaceholder: st.extraPh || '',
+      bkSetExtra: (e) => this.bkSet('diseaseText', e.target.value),
+      bkHasPhoto: !!s.bkPhoto, bkNoPhoto: !s.bkPhoto, bkPhotoUrl: s.bkPhoto,
+      bkSetPhoto: (e) => { const f = e.target.files && e.target.files[0]; if (f) this.setState({ bkPhoto: URL.createObjectURL(f) }); },
+      bkNextLabel: isLast ? 'ثبت نهایی نوبت' : 'ادامه', bkNextOpacity: valid ? 1 : 0.4, bkNextDisplay: autoAdvance ? 'none' : 'block',
+      bkNext: () => {
+        if (!valid) return;
+        if (isLast) this.setState({ bkDone: true, bkCode: 'DK-' + (10000 + Math.floor(Math.random() * 89999)) });
+        else this.bkGo(1);
+      },
+      bkBack: () => this.bkGo(-1), bkBackVis: s.bkStep > 0 ? 'visible' : 'hidden'
+    };
+  }
+
   closeAll = () => this.setState({ menu: false, sheet: false });
   openSheet = () => this.setState({ menu: false, sheet: true, submitted: false });
   go = (id) => () => {
@@ -374,6 +624,7 @@ class Component extends DCLogic {
     const areas = ['صورت', 'زیر بغل', 'دست', 'پا', 'بیکینی', 'بدن کامل'];
     const valid = s.name.trim().length > 1 && s.phone.replace(/\D/g, '').length >= 10;
     return {
+      ...this.bkVals(),
       rows: [
         { label: 'ساخت ایتالیا', isX: true, isDash: false },
         { label: 'تاییدیه CE و FDA', isX: false, isDash: true },
@@ -395,6 +646,7 @@ class Component extends DCLogic {
         { label: 'مزایای کلینیک', go: this.go('features') },
         { label: 'درباره دستگاه', go: this.go('device') },
         { label: 'نظر مشتریان', go: this.go('reviews') },
+        { label: 'فرم پذیرش', go: this.go('booking') },
         { label: 'تماس با ما', go: this.go('contact') }
       ],
       openMenu: () => this.setState({ menu: true }),
